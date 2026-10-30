@@ -84,7 +84,7 @@ function todayStr() { var d = new Date(); return ymd(d.getFullYear(), d.getMonth
 function yen(n) { return Math.round(n).toLocaleString("ja-JP"); }
 function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 function range(a, b, s) { var r = []; for (var i = a; i <= b; i += s) r.push(i); return r; }
-var HOURS = range(0, 23, 1), MINS = range(0, 55, 5);
+var HOURS = range(0, 23, 1), MINS = range(0, 59, 1);
 
 var now = new Date();
 var __n = new Date();
@@ -161,7 +161,7 @@ function previewHtml(f) {
 
 function renderModal() {
   if (state.settings) {
-    return '<div class="overlay" data-a="close"><div class="modal"><div class="m-head"><div class="m-title">時給の設定</div><button class="close-btn" data-a="close">✕</button></div>' +
+    return '<div class="overlay"><div class="modal"><div class="m-head"><div class="m-title">時給の設定</div><button class="close-btn" data-a="close">✕</button></div>' +
       '<label class="lbl">いまの時給（円）</label><input class="inp" id="wage-in" inputmode="numeric" value="' + esc(state.settings.wage) + '" />' +
       '<div class="hint">変えても、前に入れた日の金額は変わらへんで。これから入れる日から新しい時給になるよ。</div>' +
       '<label class="lbl">締め日</label><div class="trow"><select id="close-in">' + range(1, 28, 1).map(function (v) { return '<option value="' + v + '"' + (v === state.settings.close ? " selected" : "") + '>' + v + '日締め</option>'; }).join("") + '<option value="31"' + (state.settings.close >= 28 ? " selected" : "") + '>月末締め</option></select></div>' +
@@ -170,7 +170,7 @@ function renderModal() {
   }
   if (state.dayView) {
     var dv = state.dayView, dd = new Date(dv.replace(/-/g, "/")), list = state.shifts[dv] || [];
-    return '<div class="overlay" data-a="close"><div class="modal"><div class="m-head"><div class="m-title">' + (dd.getMonth() + 1) + '月' + dd.getDate() + '日(' + WD[dd.getDay()] + ')</div><button class="close-btn" data-a="close">✕</button></div>' +
+    return '<div class="overlay"><div class="modal"><div class="m-head"><div class="m-title">' + (dd.getMonth() + 1) + '月' + dd.getDate() + '日(' + WD[dd.getDay()] + ')</div><button class="close-btn" data-a="close">✕</button></div>' +
       list.map(function (s, i) {
         return '<div class="shift" style="margin:8px 0 0;" data-a="edit" data-d="' + dv + '" data-i="' + i + '"><div><div class="d">' + (s.place ? esc(s.place) : "勤務" + (i + 1)) + '</div><div class="t">' + tm(s.sh, s.sm) + '〜' + tm(s.eh, s.em) + '・' + hm(workMinutes(s)) + '</div></div><div class="p">' + yen(shiftPay(s)) + '円</div></div>';
       }).join("") +
@@ -179,7 +179,7 @@ function renderModal() {
   var f = state.form;
   if (!f) return "";
   var d = new Date(f.date.replace(/-/g, "/"));
-  return '<div class="overlay" data-a="close"><div class="modal"><div class="m-head"><div class="m-title">' + (d.getMonth() + 1) + '月' + d.getDate() + '日(' + WD[d.getDay()] + ') の勤務</div><button class="close-btn" data-a="close">✕</button></div>' +
+  return '<div class="overlay"><div class="modal"><div class="m-head"><div class="m-title">' + (d.getMonth() + 1) + '月' + d.getDate() + '日(' + WD[d.getDay()] + ') の勤務</div><button class="close-btn" data-a="close">✕</button></div>' +
     '<label class="lbl">出勤 → 退勤</label><div class="trow">' + sel("sh", f.sh, HOURS) + '<span class="sep">:</span>' + sel("sm", f.sm, MINS) + '<span class="to">〜</span>' + sel("eh", f.eh, HOURS) + '<span class="sep">:</span>' + sel("em", f.em, MINS) + '</div>' +
     '<label class="lbl">時給（円）</label><input class="inp" id="f-wage" inputmode="numeric" value="' + esc(f.wage) + '" />' +
     '<label class="lbl">職場のメモ（なくてもOK）</label><input class="inp" id="f-place" autocomplete="off" placeholder="例：スーパー" value="' + esc(f.place) + '" />' +
