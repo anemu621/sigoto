@@ -211,7 +211,7 @@ function renderApp() {
     (s || []).forEach(function (x) { dm += workMinutes(x); dp += shiftPay(x); });
     var lbl = (d === 1 || ds === dstr(per.s)) ? (cur.getMonth() + 1) + '/' + d : d;
     h += '<button class="day' + (s ? " work" : "") + (ds === today ? " today" : "") + '" data-a="day" data-d="' + ds + '">' + lbl +
-      (s ? '<span class="h">' + (dm / 60).toFixed(1).replace(/\.0$/, "") + 'h' + (s.length > 1 ? '×' + s.length : "") + '</span><span class="m">' + yen(dp) + '</span>' : "") + '</button>';
+      (s ? '<span class="h">' + (dm / 60).toFixed(1).replace(/\.0$/, "") + 'h</span><span class="m">' + yen(dp) + '</span>' : "") + '</button>';
   }
   h += '</div></div>';
   if (keys.length) {
