@@ -214,13 +214,7 @@ function renderApp() {
       (s ? '<span class="h">' + (dm / 60).toFixed(1).replace(/\.0$/, "") + 'h</span><span class="m">' + yen(dp) + '</span>' : "") + '</button>';
   }
   h += '</div></div>';
-  if (keys.length) {
-    h += '<div class="list-title">この月の勤務</div>';
-    keys.forEach(function (e) {
-      var s = e.s, d = new Date(e.date.replace(/-/g, "/"));
-      h += '<div class="shift" data-a="edit" data-d="' + e.date + '" data-i="' + e.idx + '"><div><div class="d">' + (d.getMonth() + 1) + '/' + d.getDate() + '(' + WD[d.getDay()] + ')' + (s.place ? ' ' + esc(s.place) : "") + '</div><div class="t">' + tm(s.sh, s.sm) + '〜' + tm(s.eh, s.em) + '・' + hm(workMinutes(s)) + '</div></div><div class="p">' + yen(shiftPay(s)) + '円</div></div>';
-    });
-  } else {
+  if (!keys.length) {
     h += '<div class="empty">まだ勤務が入ってへんで。<br>日にちをタップして、出勤と退勤の時間を入れてな。</div>';
   }
   h += '<div class="footer-tools"><button class="tool-btn" data-a="export">バックアップを書き出す</button><button class="tool-btn" data-a="import">読み込む</button></div>';
